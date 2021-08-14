@@ -1,7 +1,10 @@
 /* eslint-disable require-jsdoc */
+const ClientError = require('../../exceptions/ClientError');
+
 class SongsHandler {
-  constructor(service) {
+  constructor(service, validator) {
     this._service = service;
+    this._validator = validator;
 
     this.postSongHandler = this.postSongHandler.bind(this);
     this.getSongsHandler = this.getSongsHandler.bind(this);
@@ -12,6 +15,7 @@ class SongsHandler {
 
   postSongHandler(request, h) {
     try {
+      this._validator.validateSongPayload(request.payload);
       const {
         title = 'untitled',
         year,
@@ -37,10 +41,19 @@ class SongsHandler {
       }).code(201);
       return response;
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        }).code(error.statusCode);
+        return response;
+      }
+
       const response = h.response({
-        status: 'fail',
-        message: error.message,
-      }).code(400);
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
+      }).code(500);
+      console.error(error);
       return response;
     }
   }
@@ -66,16 +79,27 @@ class SongsHandler {
         },
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        }).code(error.statusCode);
+        return response;
+      }
+
+      // Server ERROR!
       const response = h.response({
-        status: 'fail',
-        message: error.message,
-      }).code(404);
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
+      }).code(500);
+      console.error(error);
       return response;
     }
   }
 
   putSongByIdHandler(request, h) {
     try {
+      this._validator.validateSongPayload(request.payload);
       const {songId} = request.params;
 
       this._service.editSongById(songId, request.payload);
@@ -85,10 +109,20 @@ class SongsHandler {
         message: 'Lagu berhasil diperbarui',
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        }).code(error.statusCode);
+        return response;
+      }
+
+      // Server ERROR!
       const response = h.response({
-        status: 'fail',
-        message: error.message,
-      }).code(404);
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
+      }).code(500);
+      console.error(error);
       return response;
     }
   }
@@ -102,10 +136,22 @@ class SongsHandler {
         message: 'Lagu berhasil dihapus',
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
+      // Server ERROR!
       const response = h.response({
-        status: 'fail',
-        message: 'Lagu gagal dihapus. Id tidak ditemukan',
-      }).code(404);
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
+      });
+      response.code(500);
+      console.error(error);
       return response;
     }
   }

@@ -1,5 +1,7 @@
 /* eslint-disable require-jsdoc */
 const {nanoid} = require('nanoid');
+const InvariantError = require('../../exceptions/InvariantError');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
 class SongService {
   constructor() {
@@ -27,7 +29,7 @@ class SongService {
     const accomplish = this._songs.fliter((song) => song.id === id).length > 0;
 
     if (!accomplish) {
-      throw new Error('Lagu gagal ditambahkan');
+      throw new InvariantError('Lagu gagal ditambahkan');
     }
 
     return id;
@@ -46,7 +48,7 @@ class SongService {
     const song = this._songs.filter((n) => n.id === songId)[0];
 
     if (!song) {
-      throw new Error('Lagu tidak ditemukan');
+      throw new NotFoundError('Lagu tidak ditemukan');
     }
     return song;
   }
@@ -55,7 +57,7 @@ class SongService {
     const index = this._songs.findIndex((song) => song.id === songId);
 
     if (index === -1) {
-      throw new Error('Gagal memperbarui lagu. Id tidak ditemukan');
+      throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
     }
 
     const updatedAt = new Date().toISOString();
