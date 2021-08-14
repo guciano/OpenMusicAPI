@@ -11,7 +11,6 @@ class SongService {
     const id = nanoid(16);
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
-
     const newSong = {
       title,
       year,
@@ -30,6 +29,7 @@ class SongService {
     if (!accomplish) {
       throw new Error('Lagu gagal ditambahkan');
     }
+
     return id;
   }
 
