@@ -38,7 +38,8 @@ class SongsHandler {
         data: {
           songId,
         },
-      }).code(201);
+      });
+      response.code(201);
       return response;
     } catch (error) {
       if (error instanceof ClientError) {
@@ -52,7 +53,8 @@ class SongsHandler {
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
-      }).code(500);
+      });
+      response.code(500);
       console.error(error);
       return response;
     }
@@ -83,7 +85,8 @@ class SongsHandler {
         const response = h.response({
           status: 'fail',
           message: error.message,
-        }).code(error.statusCode);
+        });
+        responses.code(error.statusCode);
         return response;
       }
 
@@ -91,7 +94,8 @@ class SongsHandler {
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
-      }).code(500);
+      });
+      response.code(500);
       console.error(error);
       return response;
     }
@@ -121,7 +125,8 @@ class SongsHandler {
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
-      }).code(500);
+      });
+      response.code(500);
       console.error(error);
       return response;
     }
