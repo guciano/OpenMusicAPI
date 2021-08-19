@@ -2,6 +2,7 @@
 /* eslint-disable require-jsdoc */
 const {Pool} = require('pg');
 const {nanoid} = require('nanoid');
+const {statusMessageRsp} = require('../../customResponses/customMessageResponse');
 const InvariantError = require('../../exceptions/InvariantError');
 const {mapDBToModel} = require('../../utils');
 const NotFoundError = require('../../exceptions/NotFoundError');
@@ -12,11 +13,7 @@ class SongsService {
   }
 
   async addSong({
-    title,
-    year,
-    performer,
-    genre,
-    duration,
+    title, year, performer, genre, duration,
   }) {
     const id = nanoid(16);
     const insertedAt = new Date().toISOString();
@@ -30,7 +27,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError('Lagu gagal ditambahkan');
+      throw new InvariantError(statusMessageRsp.saveUnsuccessful);
     }
 
     return result.rows[0].id;
@@ -49,7 +46,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError('Lagu tidak ditemukan');
+      throw new NotFoundError(statusMessageRsp.songNotFound);
     }
 
     return result.rows.map(mapDBToModel)[0];
@@ -67,7 +64,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
+      throw new NotFoundError(statusMessageRsp.updateIdNotFound);
     }
   }
 
@@ -80,7 +77,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
+      throw new NotFoundError(statusMessageRsp.deleteIdNotFound);
     }
   }
 }

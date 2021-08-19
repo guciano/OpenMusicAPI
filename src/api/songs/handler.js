@@ -1,5 +1,8 @@
 /* eslint-disable require-jsdoc */
 const ClientError = require('../../exceptions/ClientError');
+const {
+  successRsp, failRsp, errorRsp, statusMessageRsp,
+} =require('../../customResponses/customMessageResponse');
 
 class SongsHandler {
   constructor(service, validator) {
@@ -17,24 +20,16 @@ class SongsHandler {
     try {
       this._validator.validateSongPayload(request.payload);
       const {
-        title = untitled,
-        year,
-        performer,
-        genre,
-        duration,
+        title = untitled, year, performer, genre, duration,
       } = request.payload;
 
       const songId = await this._service.addSong({
-        title,
-        year,
-        performer,
-        genre,
-        duration,
+        title, year, performer, genre, duration,
       });
 
       const response = h.response({
-        status: 'success',
-        message: 'Lagu berhasil ditambahkan',
+        status: successRsp,
+        message: statusMessageRsp.saveSuccessful,
         data: {
           songId,
         },
@@ -43,17 +38,16 @@ class SongsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: 'fail',
+          status: failRsp,
           message: error.message,
         }).code(error.statusCode);
         return response;
       }
 
       const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        status: errorRsp,
+        message: statusMessageRsp.serverFail,
       }).code(500);
-      console.error(error);
       return response;
     }
   }
@@ -61,7 +55,7 @@ class SongsHandler {
   async getSongsHandler() {
     const songs = await this._service.getSongs();
     return {
-      status: 'success',
+      status: successRsp,
       data: {
         songs,
       },
@@ -73,7 +67,7 @@ class SongsHandler {
       const {songId} = request.params;
       const song = await this._service.getSongById(songId);
       return {
-        status: 'success',
+        status: successRsp,
         data: {
           song,
         },
@@ -81,17 +75,16 @@ class SongsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: 'fail',
+          status: fail,
           message: error.message,
         }).code(error.statusCode);
         return response;
       }
 
       const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        status: errorRsp,
+        message: statusMessageRsp.serverFail,
       }).code(500);
-      console.error(error);
       return response;
     }
   }
@@ -103,23 +96,22 @@ class SongsHandler {
       await this._service.editSongById(songId, request.payload);
 
       return {
-        status: 'success',
-        message: 'Lagu berhasil diperbarui',
+        status: successRsp,
+        message: statusMessageRsp.updateSuccessful,
       };
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: 'fail',
+          status: fail,
           message: error.message,
         }).code(error.statusCode);
         return response;
       }
 
       const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        status: errorRsp,
+        message: statusMessageRsp.serverFail,
       }).code(500);
-      console.error(error);
       return response;
     }
   }
@@ -129,23 +121,22 @@ class SongsHandler {
       const {songId} = request.params;
       await this._service.deleteSongById(songId);
       return {
-        status: 'success',
-        message: 'Lagu berhasil dihapus',
+        status: success,
+        message: statusMessageRsp.deleteSuccessful,
       };
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: 'fail',
+          status: fail,
           message: error.message,
         }).code(error.statusCode);
         return response;
       }
 
       const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        status: errorRsp,
+        message: statusMessageRsp.serverFail,
       }).code(500);
-      console.error(error);
       return response;
     }
   }
