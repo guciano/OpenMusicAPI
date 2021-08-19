@@ -13,5 +13,5 @@ const statusMessageRsp = {
 };
 
 module.exports = {
-  successRsp, failRsp, errorRsp, statusCodeRsp, statusMessageRsp,
+  successRsp, failRsp, errorRsp, statusMessageRsp,
 };
