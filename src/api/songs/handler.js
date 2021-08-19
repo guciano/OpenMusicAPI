@@ -75,7 +75,7 @@ class SongsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: fail,
+          status: failRsp,
           message: error.message,
         }).code(error.statusCode);
         return response;
@@ -102,7 +102,7 @@ class SongsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: fail,
+          status: failRsp,
           message: error.message,
         }).code(error.statusCode);
         return response;
@@ -121,13 +121,13 @@ class SongsHandler {
       const {songId} = request.params;
       await this._service.deleteSongById(songId);
       return {
-        status: success,
+        status: successRsp,
         message: statusMessageRsp.deleteSuccessful,
       };
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: fail,
+          status: failRsp,
           message: error.message,
         }).code(error.statusCode);
         return response;
