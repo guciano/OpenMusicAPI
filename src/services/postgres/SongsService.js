@@ -4,7 +4,7 @@ const {Pool} = require('pg');
 const {nanoid} = require('nanoid');
 const {statusMessageRsp} = require('../../customResponses/customMessageResponse');
 const InvariantError = require('../../exceptions/InvariantError');
-const {mapDBToModel} = require('../../utils');
+const {mapDBToModel} = require('../../utilities');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
 class SongsService {

@@ -2,7 +2,7 @@
 const ClientError = require('../../exceptions/ClientError');
 const {
   successRsp, failRsp, errorRsp, statusMessageRsp,
-} =require('../../customResponses/customMessageResponse');
+} =require('../../utilities/customResponses/customMessageResponse');
 
 class SongsHandler {
   constructor(service, validator) {
