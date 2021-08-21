@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
-const ClientError = require('./ClientError');
+const ClientErr = require('./client-Err');
 
-class InvariantError extends ClientError {
+class InvariantError extends ClientErr {
   constructor(message) {
     super(message);
     this.name = 'InvariantError';

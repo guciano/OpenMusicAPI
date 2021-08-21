@@ -2,14 +2,14 @@ const successRsp = 'success';
 const failRsp = 'fail';
 const errorRsp = 'error';
 const statusMessageRsp = {
-  saveSuccessful: 'Lagu berhasil ditambahkan',
-  saveUnsuccessful: 'Lagu gagal ditambahkan',
-  songNotFound: 'Lagu tidak ditemukan',
-  serverFail: 'Maaf, server sedang error',
-  updateSuccessful: 'Lagu berhasil diperbarui',
-  updateIdNotFound: 'Gagal memperbarui lagu. Id lagu tidak ditemukan',
-  deleteSuccessful: 'Lagu berhasil dihapus',
-  deleteIdNotFound: 'Lagu gagal dihapus. Id tidak ditemukan',
+  saveSuccessfulMessage: 'Lagu berhasil ditambahkan',
+  saveUnsuccessfulMessage: 'Lagu gagal ditambahkan',
+  songNotFoundMessage: 'Lagu tidak ditemukan',
+  serverFailMessage: 'Maaf, server sedang error',
+  updateSuccessfulMessage: 'Lagu berhasil diperbarui',
+  updateIdNotFoundMessage: 'Gagal memperbarui lagu. Id lagu tidak ditemukan',
+  deleteSuccessfulMessage: 'Lagu berhasil dihapus',
+  deleteIdNotFoundMessage: 'Lagu gagal dihapus. Id tidak ditemukan',
 };
 
 module.exports = {

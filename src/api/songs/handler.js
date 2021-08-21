@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-const ClientError = require('../../exceptions/ClientError');
+const ClientErr = require('../../exceptions/client-Err');
 const {
   successRsp, failRsp, errorRsp, statusMessageRsp,
 } =require('../../utilities/customResponses/customMessageResponse');
@@ -29,14 +29,14 @@ class SongsHandler {
 
       const response = h.response({
         status: successRsp,
-        message: statusMessageRsp.saveSuccessful,
+        message: statusMessageRsp.saveSuccessfulMessage,
         data: {
           songId,
         },
       }).code(201);
       return response;
     } catch (error) {
-      if (error instanceof ClientError) {
+      if (error instanceof ClientErr) {
         const response = h.response({
           status: failRsp,
           message: error.message,
@@ -46,7 +46,7 @@ class SongsHandler {
 
       const response = h.response({
         status: errorRsp,
-        message: statusMessageRsp.serverFail,
+        message: statusMessageRsp.serverFailMessage,
       }).code(500);
       return response;
     }
@@ -73,7 +73,7 @@ class SongsHandler {
         },
       };
     } catch (error) {
-      if (error instanceof ClientError) {
+      if (error instanceof ClientErr) {
         const response = h.response({
           status: failRsp,
           message: error.message,
@@ -83,7 +83,7 @@ class SongsHandler {
 
       const response = h.response({
         status: errorRsp,
-        message: statusMessageRsp.serverFail,
+        message: statusMessageRsp.serverFailMessage,
       }).code(500);
       return response;
     }
@@ -97,10 +97,10 @@ class SongsHandler {
 
       return {
         status: successRsp,
-        message: statusMessageRsp.updateSuccessful,
+        message: statusMessageRsp.updateSuccessfulMessage,
       };
     } catch (error) {
-      if (error instanceof ClientError) {
+      if (error instanceof ClientErr) {
         const response = h.response({
           status: failRsp,
           message: error.message,
@@ -110,7 +110,7 @@ class SongsHandler {
 
       const response = h.response({
         status: errorRsp,
-        message: statusMessageRsp.serverFail,
+        message: statusMessageRsp.serverFailMessage,
       }).code(500);
       return response;
     }
@@ -122,10 +122,10 @@ class SongsHandler {
       await this._service.deleteSongById(songId);
       return {
         status: successRsp,
-        message: statusMessageRsp.deleteSuccessful,
+        message: statusMessageRsp.deleteSuccessfulMessage,
       };
     } catch (error) {
-      if (error instanceof ClientError) {
+      if (error instanceof ClientErr) {
         const response = h.response({
           status: failRsp,
           message: error.message,
@@ -135,7 +135,7 @@ class SongsHandler {
 
       const response = h.response({
         status: errorRsp,
-        message: statusMessageRsp.serverFail,
+        message: statusMessageRsp.serverFailMessage,
       }).code(500);
       return response;
     }

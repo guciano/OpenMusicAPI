@@ -3,9 +3,9 @@
 const {Pool} = require('pg');
 const {nanoid} = require('nanoid');
 const {statusMessageRsp} = require('../../utilities/customResponses/customMessageResponse');
-const InvariantError = require('../../exceptions/InvariantError');
+const InvariantErr = require('../../exceptions/invariant-Err');
 const {mapDBToModel} = require('../../utilities/utilities');
-const NotFoundError = require('../../exceptions/NotFoundError');
+const NotFoundErr = require('../../exceptions/NotFound-Err');
 
 class SongsService {
   constructor() {
@@ -27,7 +27,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError(statusMessageRsp.saveUnsuccessful);
+      throw new InvariantErr(statusMessageRsp.saveUnsuccessfulMessage);
     }
 
     return result.rows[0].id;
@@ -46,7 +46,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError(statusMessageRsp.songNotFound);
+      throw new NotFoundErr(statusMessageRsp.songNotFoundMessage);
     }
 
     return result.rows.map(mapDBToModel)[0];
@@ -64,7 +64,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError(statusMessageRsp.updateIdNotFound);
+      throw new NotFoundErr(statusMessageRsp.updateIdNotFoundMessage);
     }
   }
 
@@ -77,7 +77,7 @@ class SongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError(statusMessageRsp.deleteIdNotFound);
+      throw new NotFoundErr(statusMessageRsp.deleteIdNotFoundMessage);
     }
   }
 }

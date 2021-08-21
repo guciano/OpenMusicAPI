@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
-const ClientError = require('./ClientError');
+const ClientErr = require('./client-Err');
 
-class NotFoundError extends ClientError {
+class NotFoundError extends ClientErr {
   constructor(message) {
     super(message, 404);
     this.name = 'NotFoundError';
