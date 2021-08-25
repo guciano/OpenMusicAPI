@@ -1,7 +1,6 @@
 {
   "name": "OpenMusicAPI-V1",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start-prod": "NODE_ENV=production node ./src/server.js",
@@ -24,5 +23,14 @@
     "nanoid": "^3.1.25",
     "node-pg-migrate": "^5.10.0",
     "pg": "^8.7.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guciano/OpenMusicAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guciano/OpenMusicAPI/issues"
+  },
+  "homepage": "https://github.com/guciano/OpenMusicAPI#readme",
+  "description": ""
 }
