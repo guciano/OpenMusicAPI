@@ -1,6 +1,6 @@
 {
-  "name": "OpenMusicAPI-V1",
-  "version": "1.0.0",
+  "name": "OpenMusicAPIV2",
+  "version": "2.0.0",
   "main": "index.js",
   "scripts": {
     "start-prod": "NODE_ENV=production node ./src/server.js",
@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@hapi/hapi": "^20.1.5",
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "joi": "^17.4.2",
     "nanoid": "^3.1.25",
