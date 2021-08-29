@@ -1,5 +1,5 @@
-/* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 const ClientErr = require('../../exceptions/client-Err');
 
 class AuthenticationsHandler {
