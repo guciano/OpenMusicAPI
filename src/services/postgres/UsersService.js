@@ -4,6 +4,7 @@ const {Pool} = require('pg');
 const bcrypt = require('bcrypt');
 const InvariantError = require('../../exceptions/invariant-Err');
 const NotFoundError = require('../../exceptions/NotFound-Err');
+const AuthenticationError = require('../../exceptions/auth-Err.js');
 
 class UsersService {
   constructor() {
@@ -63,6 +64,10 @@ class UsersService {
       values: [username],
     };
     const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new AuthenticationError('Kredensial yang Anda berikan salah');
+    }
   }
 }
 
