@@ -4,7 +4,7 @@ const {Pool} = require('pg');
 const bcrypt = require('bcrypt');
 const InvariantError = require('../../exceptions/invariant-Err');
 const NotFoundError = require('../../exceptions/NotFound-Err');
-const AuthenticationError = require('../../exceptions/auth-Err.js');
+const AuthenticationError = require('../../exceptions/AuthenticationError');
 
 class UsersService {
   constructor() {
