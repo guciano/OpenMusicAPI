@@ -4,7 +4,7 @@ const {Pool} = require('pg');
 const {nanoid} = require('nanoid');
 const InvariantError = require('../../exceptions/invariant-Err');
 const NotFoundError = require('../../exceptions/NotFound-Err');
-const AuthorizationError = require('../../exceptions/AuthorizationError');
+const AuthorizationError = require('../../exceptions/AuthenticationError');
 
 class SongPlaylistsService {
   constructor(collaborationService) {
@@ -51,16 +51,15 @@ class SongPlaylistsService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rowCount) {
+    if (!result.rows.length) {
       throw new NotFoundError('Playlist gagal dihapus. Id tidak ditemukan');
     }
   }
 
   async addSongToPlaylist(playlistId, songId) {
-    const id = nanoid(16);
     const query = {
-      text: 'INSERT INTO playlistsongs VALUES($1, $2, $3) RETURNING id',
-      values: [id, playlistId, songId],
+      text: 'INSERT INTO playlistsongs (playlist_id, song_id) VALUES($1, $2) RETURNING id',
+      values: [playlistId, songId],
     };
 
     const result = await this._pool.query(query);
@@ -92,7 +91,7 @@ class SongPlaylistsService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rowCount) {
+    if (!result.rows.length) {
       throw new InvariantError('Lagu gagal dihapus');
     }
   }
@@ -103,7 +102,7 @@ class SongPlaylistsService {
       values: [id],
     };
     const result = await this._pool.query(query);
-    if (!result.rowCount) {
+    if (!result.rows.length) {
       throw new NotFoundError('Playlist tidak ditemukan');
     }
     const playlist = result.rows[0];
