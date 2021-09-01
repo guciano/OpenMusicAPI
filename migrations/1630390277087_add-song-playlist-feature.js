@@ -1,12 +1,10 @@
 /* eslint-disable max-len */
 /* eslint-disable camelcase */
 
-exports.shorthands = undefined;
-
 exports.up = (pgm) => {
   pgm.createTable('playlistsongs', {
     id: {
-      type: 'serial',
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
     playlist_id: {

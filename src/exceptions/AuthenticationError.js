@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
-const ClientError = require('./client-Err');
+const ClientErr = require('./client-Err');
 
-class AuthenticationError extends ClientError {
+class AuthenticationError extends ClientErr {
   constructor(message) {
     super(message, 401);
     this.name = 'AuthenticationError';

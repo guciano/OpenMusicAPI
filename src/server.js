@@ -21,21 +21,21 @@ const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
 // playlist
-const SongPlaylists = require('./api/SongPlaylists');
-const SongPlaylistsService = require('./services/postgres/SongPlaylistsService');
-const songPlaylistsValidator = require('./validator/songPlaylists');
+const playlists = require('./api/playlists');
+const PlaylistsService = require('./services/postgres/PlaylistsService');
+const PlaylistsValidator = require('./validator/playlists');
 
 // collaborations
 const collaborations = require('./api/collaborations');
-const CollaborationsService = require('./services/postgres/ColaborationService');
+const CollaborationsService = require('./services/postgres/CollaborationsService');
 const CollaborationsValidator = require('./validator/collaborations');
 
 const init = async () => {
+  const authenticationsService = new AuthenticationsService();
   const collaborationsService = new CollaborationsService();
-  const songplaylistsService = new SongPlaylistsService(collaborationsService);
+  const playlistsService = new PlaylistsService(collaborationsService);
   const songsService = new SongsService();
   const usersService = new UsersService();
-  const authenticationsService = new AuthenticationsService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -80,10 +80,10 @@ const init = async () => {
       },
     },
     {
-      plugin: SongPlaylists,
+      plugin: playlists,
       options: {
-        service: songplaylistsService,
-        validator: songPlaylistsValidator,
+        service: playlistsService,
+        validator: PlaylistsValidator,
       },
     },
     {
@@ -111,6 +111,32 @@ const init = async () => {
       },
     },
   ]);
+
+  server.ext('onPreResponse', (request, h) => {
+    const {response} = request;
+
+    if (response instanceof ClientErr) {
+      const newResponse = h.response({
+        status: 'fail',
+        message: response.message,
+      });
+
+      newResponse.code(response.statusCode);
+      return newResponse;
+    }
+
+    if (response.output && response.output.statusCode === 500) {
+      const newResponse = h.response({
+        status: 'fail',
+        message: 'Internal Server Error',
+      });
+      newResponse.code(500);
+      console.error(response);
+      return newResponse;
+    }
+
+    return response.continue || response;
+  });
 
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
